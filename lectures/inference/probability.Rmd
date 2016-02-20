@@ -93,6 +93,7 @@ Now, above we used the phrase "over and over". Technically, we can't repeat this
 ```{r}
 B <- 10^5
 events <- replicate( B, sample( beads, 1))
+
 ```
 
 We can now see if in fact, our definition is in agreement with this simulation. We introduce a two new useful functions, `table` and `prop.table`. The function `table` quickly tabulates the outcomes
@@ -145,6 +146,7 @@ If we pick an element at random from this list:
 
 ```{r}
 X <- sample(x,1)
+X
 ```
 
 then intuitively we see that the probability of the observed value $X$ being smaller or equal to $0$ is $\mbox{Pr}(X \leq 0) = \mbox{Pr}(X = 0) = F(0)$. We also see that
@@ -153,7 +155,11 @@ $\mbox{Pr}(X=1) = F(1) - F(0) = 3/5$. The cumulative distribution function defin
 Assessment: If we pick a random student from this class at random, what is the probability that this student is taller than 6 feet tall? 
 
 ```{r,echo=FALSE, warning=FALSE}
-##Your code here
+
+
+
+
+
 ```
 
 Note that for categorical outcomes, such as blue and red beads, the concept of a cumulative distribution function is not very intuitive. This is particularly true when we have more than two outcomes. Instead, it is more natural to define the probability of each possible event: $\mbox{Pr}(\mbox{blue bead})=3/5$ and $\mbox{Pr}(\mbox{red bead})=2/5$.
@@ -193,12 +199,12 @@ So here is how we generate a deck of cards:
 suits <- c("Diamonds", "Clubs", "Hearts", "Spades")
 numbers <- c("Ace", "Deuce", "Three", "Four","Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King")
 deck <- expand.grid( number=numbers, suit=suits)
-deck <- paste( deck$number, deck$suit)
+deck <- paste( deck$number, deck$suit,sep = ' of ')
 ```
 
 To answer the first question above we can simply compute
 ```{r}
-mean( deck =="Three Hearts")
+mean( deck =="Three of Hearts")
 ```
 
 which is $1/52$. 
@@ -210,8 +216,8 @@ library(gtools)
 index <- permutations(52,2)
 first_card <- deck[index[,1]]
 second_card <- deck[index[,2]]
-sum(second_card == "Three Hearts") / 
-  sum( first_card != "Three Hearts" )
+sum(second_card == "Three of Hearts") / 
+  sum( first_card != "Three of Hearts" )
 ```
 
 which is $1/51$. 
@@ -250,7 +256,12 @@ We can use a Monte Carlo simulation.
 Assessment: Use `sample` to randomly select 50 birthdays. Check if they are unique.
 
 ```{r}
-##your code here
+bdays = sample(1:365,42,replace = TRUE)
+length(unique(bdays))
+sum(duplicated(bdays))
+any(duplicated(bdays))
+
+table(table(bdays))
 ```
 
 ```{r birthday-problem}
